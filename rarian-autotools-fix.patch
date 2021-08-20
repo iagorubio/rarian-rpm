@@ -1,0 +1,54 @@
+diff -X excludes -ruN rarian-0.8.1/configure.ac rarian-0.8.1.new/configure.ac
+--- rarian-0.8.1/configure.ac	2008-09-01 20:44:05.000000000 +0200
++++ rarian-0.8.1.new/configure.ac	2021-08-19 22:19:06.107194924 +0200
+@@ -5,7 +5,9 @@
+ AC_INIT(rarian, 0.8.1)
+ AC_CONFIG_SRCDIR([util/rarian-example.c])
+ AC_CONFIG_HEADER([config.h])
+-AM_INIT_AUTOMAKE ([foreign dist-bzip2 dist-gzip])
++AM_INIT_AUTOMAKE ([subdir-objects foreign dist-bzip2 dist-gzip])
++
++AC_CONFIG_MACRO_DIR([m4])
+ 
+ AM_MAINTAINER_MODE
+ 
+diff -X excludes -ruN rarian-0.8.1/librarian/Makefile.am rarian-0.8.1.new/librarian/Makefile.am
+--- rarian-0.8.1/librarian/Makefile.am	2008-09-01 20:40:21.000000000 +0200
++++ rarian-0.8.1.new/librarian/Makefile.am	2021-08-19 22:12:08.285205342 +0200
+@@ -1,3 +1,5 @@
++AUTOMAKE_OPTIONS = subdir-objects
++
+ pkginclude_HEADERS = rarian.h rarian-main.h rarian-reg-utils.h \
+ 		rarian-info.h rarian-man.h
+ lib_LTLIBRARIES = librarian.la
+@@ -30,4 +32,4 @@
+ endif
+ 
+ librarian_la_CFLAGS = -DDATADIR=\""$(datadir)"\" -DSYSCONFDIR=\""$(sysconfdir)"\" -DI_KNOW_RARIAN_0_8_IS_UNSTABLE
+-librarian_la_LDFLAGS = -export-symbols-regex "^rrn_.*"
+\ No newline at end of file
++librarian_la_LDFLAGS = -export-symbols-regex "^rrn_.*"
+diff -X excludes -ruN rarian-0.8.1/Makefile.am rarian-0.8.1.new/Makefile.am
+--- rarian-0.8.1/Makefile.am	2008-09-01 20:40:21.000000000 +0200
++++ rarian-0.8.1.new/Makefile.am	2021-08-20 10:46:12.948438153 +0200
+@@ -5,4 +5,7 @@
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = rarian.pc
+ 
+-SUBDIRS = librarian util data docs
+\ No newline at end of file
++ACLOCAL_AMFLAGS=-I m4
++
++SUBDIRS = librarian util data docs
++
+diff -X excludes -ruN rarian-0.8.1/util/Makefile.am rarian-0.8.1.new/util/Makefile.am
+--- rarian-0.8.1/util/Makefile.am	2008-09-01 20:40:21.000000000 +0200
++++ rarian-0.8.1.new/util/Makefile.am	2021-08-19 22:15:30.481168150 +0200
+@@ -1,4 +1,6 @@
+-INCLUDES =      \
++AUTOMAKE_OPTIONS = subdir-objects
++
++AM_CPPFLAGS =      \
+     -I$(srcdir)/../librarian
+ LDADD =         \
+     ../librarian/librarian.la
