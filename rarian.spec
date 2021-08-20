@@ -5,7 +5,7 @@ Release: 28%{?dist}
 License: LGPLv2+
 Summary: Documentation meta-data library
 URL: http://rarian.freedesktop.org/
-Source: https://rarian.freedesktop.org/Releases/rarian-%{version}.tar.bz2
+Source0: https://rarian.freedesktop.org/Releases/rarian-%{version}.tar.bz2
 Source1: scrollkeeper-omf.dtd
 
 ### Patch ###
