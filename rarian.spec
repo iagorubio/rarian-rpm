@@ -5,16 +5,16 @@ Release: 28%{?dist}
 License: LGPLv2+
 Summary: Documentation meta-data library
 URL: http://rarian.freedesktop.org/
-Source0: https://rarian.freedesktop.org/Releases/rarian-%{version}.tar.bz2
+Source: https://rarian.freedesktop.org/Releases/rarian-%{version}.tar.bz2
 Source1: scrollkeeper-omf.dtd
 
 ### Patch ###
 
 # Autotools fix
-Patch0: rarian-autotools-fix.patch
+# Patch0: rarian-autotools-fix.patch
 
 # RH bug #453342
-Patch1: rarian-0.8.1-categories.patch
+Patch0: rarian-0.8.1-categories.patch
 
 ### Dependencies ###
 
@@ -63,8 +63,8 @@ Rarian library ("librarian").
 %prep
 %setup -q
 libtoolize --copy --force &&  aclocal -I m4 &&  autoheader &&  automake --include-deps --add-missing --foreign &&  autoconf
-%patch0 -p1
-%patch1 -p1 -b .categories
+# %patch0 -p1
+%patch0 -p1 -b .categories
 
 %build
 %configure --disable-skdb-update --disable-rpath
@@ -124,7 +124,8 @@ fi
 
 %changelog
 * Fri Aug 20 2021 Yago Rubio Sanfiz <iagorubio@fedoraproject.org> - 0.8.1-28
-- Fixed autotools files to tackle with rpm rpath cheks
+- Fixed autotools files to tackle with rpm rpath cheks and seded out rpath
+  from libtool script on configure step.
 
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
