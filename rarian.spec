@@ -1,28 +1,26 @@
-
 Name: rarian
 Version: 0.8.1
 Release: 28%{?dist}
 License: LGPLv2+
 Summary: Documentation meta-data library
 URL: http://rarian.freedesktop.org/
+# Source: http://download.gnome.org/sources/rarian/0.8/rarian-%{version}.tar.bz2
+# Upstream URL
 Source: https://rarian.freedesktop.org/Releases/rarian-%{version}.tar.bz2
 Source1: scrollkeeper-omf.dtd
 
 ### Patch ###
 
-# Autotools fix
-# Patch0: rarian-autotools-fix.patch
-
 # RH bug #453342
-Patch0: rarian-0.8.1-categories.patch
+Patch1: rarian-0.8.1-categories.patch
 
 ### Dependencies ###
 
-# Requires(post): libxml2
-# Requires(postun): libxml2
+Requires(post): libxml2
+Requires(postun): libxml2
 # for /usr/bin/xmlcatalog
 
-# Requires: libxslt
+Requires: libxslt
 # for /usr/bin/xsltproc
 Requires: coreutils, util-linux, gawk
 # for basename, getopt, awk, etc
@@ -32,6 +30,7 @@ Requires: coreutils, util-linux, gawk
 BuildRequires: make
 BuildRequires: gcc-c++
 # BuildRequires: libxslt-devel
+# libxlt-devel is not used on build
 
 %description
 Rarian is a documentation meta-data library that allows access to documents,
@@ -62,12 +61,10 @@ Rarian library ("librarian").
 
 %prep
 %setup -q
-libtoolize --copy --force &&  aclocal -I m4 &&  autoheader &&  automake --include-deps --add-missing --foreign &&  autoconf
-# %patch0 -p1
-%patch0 -p1 -b .categories
+%patch1 -p1 -b .categories
 
 %build
-%configure --disable-skdb-update --disable-rpath
+%configure --disable-skdb-update
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
@@ -124,8 +121,10 @@ fi
 
 %changelog
 * Fri Aug 20 2021 Yago Rubio Sanfiz <iagorubio@fedoraproject.org> - 0.8.1-28
-- Fixed autotools files to tackle with rpm rpath cheks and seded out rpath
-  from libtool script on configure step.
+- Fixed rpath problem, removed some unused requires and changed Source url por upstream one.
+
+* Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
